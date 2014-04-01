@@ -3,11 +3,11 @@
 # Recipe:: default
 #
 # Copyright (C) 2014 Matt Veitas
-# 
+#
 # All rights reserved - Do Not Redistribute
 #
 
-loggly_token = Chef::EncryptedDataBagItem.load('loggly', 'token')['token']
+loggly_token = data_bag_item('loggly')['token']
 raise "No token was found in the loggly databag." if loggly_token.nil?
 
 service "rsyslog"
