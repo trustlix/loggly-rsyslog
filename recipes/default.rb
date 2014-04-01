@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-loggly_token = data_bag_item('loggly')['token']
+loggly_token = data_bag_item('getninjas', 'loggly')['token']
 raise "No token was found in the loggly databag." if loggly_token.nil?
 
 service "rsyslog"
