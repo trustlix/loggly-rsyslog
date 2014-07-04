@@ -10,7 +10,17 @@
 loggly_token = data_bag_item(node['loggly']['application'], 'loggly')['token']
 raise "No token was found in the loggly databag." if loggly_token.nil?
 
-service "rsyslog"
+service "rsyslog" do
+  # Force Upstart provider on ubuntu to avoid bug 
+  # https://bugs.launchpad.net/openstack-chef/+bug/1313646
+  # on older Chef versions
+  case node["platform"]
+  when "ubuntu"
+    if node["platform_version"].to_f >= 9.10
+      provider Chef::Provider::Service::Upstart
+    end
+  end
+end
 
 include_recipe "loggly-rsyslog::tls" if node['loggly']['tls']['enabled']
 
