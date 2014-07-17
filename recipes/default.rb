@@ -14,9 +14,15 @@ service "rsyslog" do
   provider Chef::Provider::Service::Upstart if platform?("ubuntu") && node["platform_version"].to_f >= 13.10
 end
 
+group "www-data" do
+  action :modify
+  members "syslog"
+  append true
+end
+
 include_recipe "loggly-rsyslog::tls" if node['loggly']['tls']['enabled']
 
-template '/etc/rsyslog.conf' do
+template '/etc/rsyslog.d/10-loggly.conf' do
   source 'loggly.conf.erb'
   owner 'root'
   group 'root'
