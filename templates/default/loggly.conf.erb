@@ -41,7 +41,7 @@ $template Loggly<%= logfile['tag'] %>Format,"<%%pri%>%protocol-version% %timesta
   <% node['loggly']['log_dirs'].each do |logdir| %>
 $template Loggly<%= logdir['tag'] %>Format,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @token %>@41058 tag=\"<%= logdir['tag'] %>\"] %msg%\n"
   <% end %>
-<% else %>
+<% end %>
 
 
 <% if node['loggly']['tls']['enabled'] %>
