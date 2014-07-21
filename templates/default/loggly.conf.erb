@@ -58,12 +58,12 @@ $ActionSendStreamDriverPermittedPeer *.loggly.com
 # Config Rules
 <% if @monitor_files %>
   <% node['loggly']['log_files'].each do |logfile| %>
-if $programname == <%= logfile['tag'] %> then @@<%= node['loggly']['host'] %>:<%= node['loggly']['port'] %>;Loggly<%= logfile['tag'] %>Format
+if $programname == '<%= logfile['tag'] %>' then @@<%= node['loggly']['host'] %>:<%= node['loggly']['port'] %>;Loggly<%= logfile['tag'] %>Format
 & stop
 
   <% end %>
   <% node['loggly']['log_dirs'].each do |logdir| %>
-if $programname == <%= logdir['tag'] %> then @@<%= node['loggly']['host'] %>:<%= node['loggly']['port'] %>;Loggly<%= logdir['tag'] %>Format
+if $programname == '<%= logdir['tag'] %>' then @@<%= node['loggly']['host'] %>:<%= node['loggly']['port'] %>;Loggly<%= logdir['tag'] %>Format
 & stop
 
   <% end %>
