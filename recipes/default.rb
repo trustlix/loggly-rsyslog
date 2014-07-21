@@ -15,7 +15,7 @@ service "rsyslog" do
 end
 
 group "www-data" do
-  action :modify
+  Chef::Log.info("Ensure syslog can access all log files owned by www-data group")
   members "syslog"
   append true
 end
