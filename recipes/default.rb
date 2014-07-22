@@ -8,19 +8,14 @@
 #
 
 loggly_token = data_bag_item(node['loggly']['application'], 'loggly')['token']
-raise "No token was found in the loggly databag." if loggly_token.nil?
+raise 'No token was found in the loggly databag.' if loggly_token.nil?
 
-service "rsyslog" do
-  provider Chef::Provider::Service::Upstart if platform?("ubuntu") && node["platform_version"].to_f >= 13.10
+service 'rsyslog' do
+  provider Chef::Provider::Service::Upstart if platform?('ubuntu') && node['platform_version'].to_f >= 13.10
+  supports :restart => true
 end
 
-group "www-data" do
-  Chef::Log.info("Ensure syslog can access all log files owned by www-data group")
-  members "syslog"
-  append true
-end
-
-include_recipe "loggly-rsyslog::tls" if node['loggly']['tls']['enabled']
+include_recipe 'loggly-rsyslog::tls' if node['loggly']['tls']['enabled']
 
 template '/etc/rsyslog.d/10-loggly.conf' do
   source 'loggly.conf.erb'
@@ -32,5 +27,10 @@ template '/etc/rsyslog.d/10-loggly.conf' do
     :tags => node['loggly']['tags'].nil? || node['loggly']['tags'].empty? ? '' : "tag=\\\"#{node['loggly']['tags'].join("\\\" tag=\\\"")}\\\"",
     :token => loggly_token
   })
-  notifies :restart, "service[rsyslog]", :immediate
+end
+
+group 'www-data' do
+  members 'syslog'
+  append true
+  notifies :restart, 'service[rsyslog]', :immediately
 end
