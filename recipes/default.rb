@@ -32,5 +32,5 @@ end
 group 'www-data' do
   members 'syslog'
   append true
-  notifies :restart, 'service[rsyslog]', :immediately
+  notifies :restart, 'service[rsyslog]', :delayed
 end
