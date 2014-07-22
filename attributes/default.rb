@@ -14,4 +14,6 @@ default['loggly']['host'] = 'logs-01.loggly.com'
 default['loggly']['port'] = node['loggly']['tls']['enabled'] ? 6514 : 514
 default['loggly']['input_file_poll_interval'] = 10
 
-default['loggly']['debug'] = ''
+default['loggly']['rsyslog']['debug'] = ''
+default['loggly']['rsyslog']['drop_privilege_user'] = 'syslog'
+default['loggly']['rsyslog']['drop_privilege_group'] = 'www-data'
