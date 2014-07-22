@@ -12,7 +12,17 @@ raise 'No token was found in the loggly databag.' if loggly_token.nil?
 
 service 'rsyslog' do
   provider Chef::Provider::Service::Upstart if platform?('ubuntu') && node['platform_version'].to_f >= 13.10
-  supports :restart => true
+  action :nothing
+end
+
+template '/etc/default/rsyslog' do
+  source 'rsyslog-defaults.erb'
+  owner 'root'
+  group 'root'
+  mode '644'
+  variables({
+    :debug => node['loggly']['debug']
+  })
 end
 
 include_recipe 'loggly-rsyslog::tls' if node['loggly']['tls']['enabled']

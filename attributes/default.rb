@@ -13,3 +13,5 @@ default['loggly']['tls']['intermediate_cert_checksum'] = '9f4b50011bdeabda276c9d
 default['loggly']['host'] = 'logs-01.loggly.com'
 default['loggly']['port'] = node['loggly']['tls']['enabled'] ? 6514 : 514
 default['loggly']['input_file_poll_interval'] = 10
+
+default['loggly']['debug'] = ''
